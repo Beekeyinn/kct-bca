@@ -1,0 +1,28 @@
+{% extends 'layouts/base.html' %} 
+{% block title %} Post Create {% endblock title %} 
+{% block content %}
+<div class="row">
+  <div class="col-6 offset-2">
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input type="text" name="title" class="form-control" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Author</label>
+        <input type="text" name="author" class="form-control" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Content</label>
+        <textarea name="content" class="form-control"></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Image</label>
+        <input type="file" class="form-control" name="image" />
+      </div>
+      <input class="btn btn-small btn-primary" type="submit" value="Create" />
+    </form>
+  </div>
+</div>
+{% endblock content %}

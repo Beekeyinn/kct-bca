@@ -1,0 +1,55 @@
+{% extends "layouts/base.html" %}
+{% block title %}
+    Post List
+{% endblock title %}
+{% block content %}
+    <div class="row">
+        {% for post in posts %}
+            <div class="col-3">
+                <h3>
+                    <a href="{% url 'post-edit' post.id %}">{{ post.title }}</a>
+                </h3>
+                <span>Author: {{ post.author }}</span>
+                {% if post.image %}
+                    <div class="image">
+                        <img src="{{ post.image.url }}"
+                             alt="{{ post.title }}"
+                             width="200"
+                             height="200">
+                    </div>
+                {% endif %}
+                <div>{{ post.content }}</div>
+                <div class="actions">
+                    <a href="{% url 'post-edit' post.id %}">Edit</a>
+                    <div>
+                        <form action="{% url 'post-delete' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="id" value="{{ post.id }}" />
+                            <input class="btn btn-danger" type="submit" value="Delete" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <nav aria-label="...">
+        <ul class="pagination">
+            {% if page.has_previous %}
+                <li class="page-item disabled">
+                    <a class="page-link"
+                       href="?page={{ page.previous_page_number }}"
+                       tabindex="-1"
+                       aria-disabled="true">Previous</a>
+                </li>
+            {% endif %}
+            <li class="page-item active" aria-current="page">
+                <a class="page-link" href="#">{{ page.number }}</a>
+            </li>
+            {% if page.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page.next_page_number }}">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock content %}

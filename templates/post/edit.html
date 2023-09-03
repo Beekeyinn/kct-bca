@@ -1,0 +1,18 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+Edit your Blog
+{% endblock title %}
+
+{% block content %}
+<div class="row">
+    <div class="col-6">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input class="btn btn-sm btn-primary" 
+            type="submit" value="Edit">
+        </form>
+    </div>
+</div>
+{% endblock content %}
