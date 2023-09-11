@@ -20,12 +20,15 @@ from home.views import home, about, contact
 from post.views import PostListView
 from django.conf.urls.static import static
 from django.conf import settings
+from accounts.views import LoginView, SignUpView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", PostListView.as_view(), name="post-list"),
     path("contact", contact, name="contact"),
     path("about", about, name="about"),
+    path("login", LoginView.as_view(), name="login"),
+    path("register", SignUpView.as_view(), name="register"),
     path("post/", include("post.urls")),
 ]
 

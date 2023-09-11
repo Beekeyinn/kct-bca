@@ -1,0 +1,15 @@
+{% extends 'layouts/base.html' %}
+{% block title %}
+    Register
+{% endblock title %}
+{% block content %}
+    <div>
+        {{ form.errors }}
+        {{ errors }}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="submit" class="btn btn-sm btn-primary">
+        </form>
+    </div>
+{% endblock content %}

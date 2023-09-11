@@ -3,7 +3,7 @@ from django.urls import reverse
 from post.models import Post
 from post.forms import PostForm
 from django.core.paginator import Paginator
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 
 
@@ -21,7 +21,7 @@ class PostListView(View):
         )
 
 
-class PostCreateView(View):
+class PostCreateView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         return render(request, "post/create.html")
 
@@ -32,13 +32,13 @@ class PostCreateView(View):
         Post.objects.create(
             title=data.get("title"),
             content=data.get("content"),
-            author=data.get("author"),
+            author=request.user,
             image=files.get("image"),
         )
         return redirect(reverse("post-list"))
 
 
-class PostEditView(View):
+class PostEditView(LoginRequiredMixin, View):
     def get(self, request, id, *args, **kwargs):
         post = Post.objects.get(id=id)
         form = PostForm(instance=post)
@@ -53,7 +53,7 @@ class PostEditView(View):
         return render(request, "post/edit.html", {"form": form})
 
 
-class PostDeleteView(View):
+class PostDeleteView(View, LoginRequiredMixin):
     def post(self, request, *args, **kwargs):
         post = Post.objects.get(id=request.POST.get("id"))
         post.delete()
