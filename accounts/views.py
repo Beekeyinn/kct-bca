@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 
 from accounts.forms import LoginForm, UserCreationForm
 
@@ -42,3 +42,9 @@ class SignUpView(View):
             form.save()
             return redirect(reverse("login"))
         return render(request, "accounts/signup.html", {"form": form})
+
+
+class Logout(View):
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return redirect(reverse("login"))

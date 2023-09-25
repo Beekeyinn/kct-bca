@@ -7,10 +7,24 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 
 
-class PostListView(View):
+class IndexView(View):
     def get(self, request, *args, **kwargs):
         page = request.GET.get("page", 1)
         posts = Post.objects.all()
+        paginator = Paginator(posts, 5)
+        page_obj = paginator.get_page(page)
+        print(page_obj.count)
+        return render(
+            request,
+            "index.html",
+            context={"posts": page_obj.object_list, "page": page_obj},
+        )
+
+
+class PostListView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        page = request.GET.get("page", 1)
+        posts = Post.objects.filter(user=request.user)
         paginator = Paginator(posts, 5)
         page_obj = paginator.get_page(page)
         print(page_obj.count)

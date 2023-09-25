@@ -17,17 +17,22 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from home.views import home, about, contact
-from post.views import PostListView
+from post.views import PostListView, IndexView
 from django.conf.urls.static import static
 from django.conf import settings
-from accounts.views import LoginView, SignUpView
+from accounts.views import LoginView, SignUpView, Logout
+from home.views import handle_404, handle_unauthorized
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", PostListView.as_view(), name="post-list"),
-    path("contact", contact, name="contact"),
+    path("404_error/", handle_404),
+    path("unauthorized/", handle_unauthorized),
+    path("", IndexView.as_view(), name="index"),
+    path("post/list/", PostListView.as_view(), name="post-list"),
+    path("contact/", contact, name="contact"),
     path("about", about, name="about"),
     path("login", LoginView.as_view(), name="login"),
+    path("logout", Logout.as_view(), name="logout"),
     path("register", SignUpView.as_view(), name="register"),
     path("post/", include("post.urls")),
 ]
